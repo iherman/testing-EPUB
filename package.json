@@ -1,0 +1,31 @@
+{
+  "name": "epub_testing_tools",
+  "version": "1.0.0",
+  "description": "Tools to produce a proper implementation report for the EPUB 3 WG Testing task",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "tsc",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iherman/epub-testing.git"
+  },
+  "author": "Ivan Herman",
+  "license": "W3C-20150513",
+  "bugs": {
+    "url": "https://github.com/iherman/epub-testing/issues"
+  },
+  "homepage": "https://github.com/iherman/epub-testing#readme",
+  "engines": {
+    "node": "16.*",
+    "npm": "7.*"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.4",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "typescript": "^4.3.4"
+  }
+}
