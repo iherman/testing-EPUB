@@ -1,6 +1,6 @@
 {
-    "name"  : "Kobo Reader",
-    "ref"   : "https://www.kobo.com/us/en/ereaders",
+    "name"  : "Cicada Reader",
+    "ref"   : "https://www.example.org/cicada",
     "tests" : {
         "cmt-gif": true,
         "cmt-jpeg": true,

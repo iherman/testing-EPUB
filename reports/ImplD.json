@@ -1,6 +1,6 @@
 {
-    "name"  : "Thorium Reader",
-    "ref"   : "https://www.edrlab.org/software/thorium-reader/",
+    "name"  : "Sea Reader",
+    "ref"   : "https://www.example.org/sea",
     "tests" : {
         "cmt-gif": true,
         "cmt-jpeg": true,

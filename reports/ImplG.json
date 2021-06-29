@@ -1,6 +1,6 @@
 {
-    "name"  : "Google Play",
-    "ref"   : "https://play.google.com/store",
+    "name"  : "Olive reader",
+    "ref"   : "https://www.example.org/olive",
     "tests" : {
         "cmt-gif": true,
         "cmt-jpeg": true,

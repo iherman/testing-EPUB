@@ -1,6 +1,6 @@
 {
-    "name"  : "Apple Books",
-    "ref"   : "https://www.apple.com/apple-books/",
+    "name"  : "ACME Books",
+    "ref"   : "https://www.example.org/acme",
     "tests" : {
         "cmt-gif": true,
         "cmt-jpeg": true,
