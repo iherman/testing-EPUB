@@ -1,0 +1,12 @@
+{
+    "name"  : "Google Play",
+    "ref"   : "https://play.google.com/store",
+    "tests" : {
+        "cmt-gif": true,
+        "cmt-jpeg": true,
+        "package-title-dir-rtl-001": false,
+        "package-title-dir-rtl-002": false,
+        "package-title-dir-rtl-003": false,
+        "package-title-dir-rtl-004": false
+    }
+}

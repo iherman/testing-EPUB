@@ -1,0 +1,12 @@
+{
+    "name"  : "Thorium Reader",
+    "ref"   : "https://www.edrlab.org/software/thorium-reader/",
+    "tests" : {
+        "cmt-gif": true,
+        "cmt-jpeg": true,
+        "package-title-dir-rtl-001": true,
+        "package-title-dir-rtl-002": true,
+        "package-title-dir-rtl-003": true,
+        "package-title-dir-rtl-004": true
+    }
+}

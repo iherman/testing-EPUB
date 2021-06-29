@@ -1,0 +1,10 @@
+{
+    "name"  : "Kobo Reader",
+    "ref"   : "https://www.kobo.com/us/en/ereaders",
+    "tests" : {
+        "cmt-gif": true,
+        "cmt-jpeg": true,
+        "package-title-dir-rtl-001": true,
+        "package-title-dir-rtl-004": true
+    }
+}
