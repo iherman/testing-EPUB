@@ -1,6 +1,5 @@
 {
     "name"  : "Cicada Reader",
-    "ref"   : "https://www.example.org/cicada",
     "tests" : {
         "cmt-gif": true,
         "cmt-jpeg": true,
