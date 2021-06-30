@@ -1,3 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace Constants {
+    export const TESTS: string = 'tests';
+    export const TEST_RESULTS: string = 'results';
+}
+
+
 
 /**
  * The metadata related to a single test, extracted from the test's package document
