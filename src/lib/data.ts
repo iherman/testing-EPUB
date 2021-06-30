@@ -1,7 +1,7 @@
 import * as fs_old_school from "fs";
 const fs = fs_old_school.promises;
-
 import * as xml2js from "xml2js";
+
 import { TestData, ImplementationReport, ImplementationData, ImplementationTable, Implementer, ReportData } from './types';
 
 

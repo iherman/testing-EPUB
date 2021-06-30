@@ -1,10 +1,11 @@
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Constants {
-    export const TESTS: string = 'tests';
-    export const TEST_RESULTS: string = 'results';
+    export const TESTS_DIR: string = 'tests';
+    export const TEST_RESULTS_DIR: string = 'results';
+    export const TEST_URL_BASE: string = 'https://github.com/w3c/epub-tests/tree/main/tests';
+    export const IMPL_FRAGMENT: string = 'reports/implementations.html';
+    export const RESULT_FRAGMENT: string = 'reports/results.html';
 }
-
-
 
 /**
  * The metadata related to a single test, extracted from the test's package document
@@ -34,7 +35,7 @@ export interface TestData {
 }
 
 /**
- * Data about a single implementer: essentially, the data that gets to the final report about each implementer
+ * Data about a single implementer: essentially, the data that is necessary to the final report about each implementer
  */
 export interface Implementer {
     /** Name of the implementation to appear in the final report */
@@ -44,8 +45,8 @@ export interface Implementer {
 }
 
 /**
- * The report of each implementer: beyond the data about the implementation it includes an array
- * of tests results, one for each test run.
+ * The report of each implementer: beyond the data about the implementation itself it includes an object listing
+ * tests results, one for each test that has been run.
  */
 export interface ImplementationReport extends Implementer {
     tests: {
@@ -53,10 +54,11 @@ export interface ImplementationReport extends Implementer {
     }
 }
 
+
 /**
- * The information about a single tests: the original metadata with an
- * array or true/false values on whether the implementation passes the test or not. 
- * The order of the test results is in sync with the order of extracted implementations
+ * The information about a single tests: the original metadata extended with an
+ * array of true/false values on whether the implementation passes the test or not. 
+ * The order of the test results is in sync with the order of extracted implementations.
  */
 export interface ImplementationData extends TestData {
     /**
@@ -67,7 +69,7 @@ export interface ImplementationData extends TestData {
 
 
 /**
- * A single set of implementations, grouped as one "section" (using the "coverage" value in the tests)
+ * A single set ("table") of implementations, grouped as one "section" (using the "coverage" value in the tests)
  */
 export interface ImplementationTable {
     header: string;
