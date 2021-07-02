@@ -4,6 +4,7 @@ table.zebra {
     font-size: inherit;
     font: 100%;
     margin: 1em;
+    width: 100% !important;
 }
 
 table.zebra td {
@@ -54,10 +55,6 @@ td.pass {
 
 td.fail {
     background-color: red;
-}
-
-table {
-    width: 100%;
 }
 
 col.col_id {
