@@ -1,3 +1,8 @@
+/**
+ * Generation of the HTML Fragments for the EPUB 3 Testing Reports
+ * 
+ *  @packageDocumentation
+ */
 import { ReportData, ImplementationTable, Implementer, ImplementationData, Constants } from './types';
 
 import * as xml2js from "xml2js";
