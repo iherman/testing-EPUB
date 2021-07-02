@@ -8,9 +8,12 @@ import { create_report } from "./lib/html";
 
 async function main() {
     const report_data: ReportData = await get_report_data(Constants.TESTS_DIR, Constants.TEST_RESULTS_DIR);
-    const {implementations, results} = create_report(report_data);
-    await fs.writeFile(Constants.IMPL_FRAGMENT, implementations, 'utf-8');
-    await fs.writeFile(Constants.RESULT_FRAGMENT, results, 'utf-8');
+    const {implementations, results, tests} = create_report(report_data);
+    await Promise.all([
+        fs.writeFile(Constants.IMPL_FRAGMENT, implementations, 'utf-8'),
+        fs.writeFile(Constants.RESULT_FRAGMENT, results, 'utf-8'),
+        fs.writeFile(Constants.TEST_FRAGMENT, tests, 'utf-8'),
+    ]);
 }
 
 main();

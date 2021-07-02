@@ -1,10 +1,49 @@
-// eslint-disable-next-line @typescript-eslint/no-namespace
+/* eslint-disable @typescript-eslint/no-namespace */
+/**
+ * Constants
+ */
 export namespace Constants {
+    /** Location for the tests themselves */
     export const TESTS_DIR: string = 'tests';
-    export const TEST_RESULTS_DIR: string = 'results';
+
+    /** Location for the implementation reports */
+    export const TEST_RESULTS_DIR: string = 'reports';
+
+    /** Base URL for the tests in the repository */
     export const TEST_URL_BASE: string = 'https://github.com/w3c/epub-tests/tree/main/tests';
-    export const IMPL_FRAGMENT: string = 'reports/implementations.html';
-    export const RESULT_FRAGMENT: string = 'reports/results.html';
+
+    /** Location for the HTML fragment on implementation lists */
+    export const IMPL_FRAGMENT: string = 'docs/fragments/implementations.html';
+
+    /** Location for the HTML fragment on implementation results */
+    export const RESULT_FRAGMENT: string = 'docs/fragments/results.html';
+
+    /** Location for the HTML fragment on test metadata */
+    export const TEST_FRAGMENT: string = 'docs/fragments/tests.html';
+
+    /** (Relative) File name of the test results */
+    export const DOC_TEST_RESULTS: string = 'index.html';
+
+    /** (Relative) File name of the test descriptions */
+    export const DOC_TEST_DESCRIPTIONS: string = 'tests.html';
+
+    /** CSS Class name for table cells with positive test results */
+    export const CLASS_PASS = "pass";
+
+    /** CSS Class name for table cells with negative test results */
+    export const CLASS_FAIL = "fail"
+
+    /** CSS Class name for columns containing the ID-s */
+    export const CLASS_COL_ID = "col_id";
+
+    /** CSS Class name for columns containing test table references */
+    export const CLASS_COL_TREF = "col_tref";
+
+    /** CSS Class name for columns containing title */
+    export const CLASS_COL_TITLE = "col_title";
+
+    /** CSS Class name for columns containing spec references */
+    export const CLASS_COL_SREF = "col_sref";
 }
 
 /**
