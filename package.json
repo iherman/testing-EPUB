@@ -2,9 +2,8 @@
   "name": "epub_testing_tools",
   "version": "1.0.0",
   "description": "Tools to produce a proper implementation report for the EPUB 3 WG Testing task",
-  "main": "dist/main.js",
+  "main": "bin/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dist": "tsc",
     "build": "tsc",
     "lint": "eslint . --ext .ts"
