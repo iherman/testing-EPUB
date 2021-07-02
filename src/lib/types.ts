@@ -10,7 +10,7 @@ export namespace Constants {
     export const TEST_RESULTS_DIR: string = 'reports';
 
     /** Base URL for the tests in the repository */
-    export const TEST_URL_BASE: string = 'https://github.com/w3c/epub-tests/tree/main/tests';
+    export const TEST_URL_BASE: string = 'https://github.com/iherman/epub-testing/tree/main/tests';
 
     /** Location for the HTML fragment on implementation lists */
     export const IMPL_FRAGMENT: string = 'docs/fragments/implementations.html';

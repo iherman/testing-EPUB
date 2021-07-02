@@ -200,7 +200,7 @@ function create_one_test_table(data: ImplementationTable): any[] {
                     },
                     a : {
                         $ : {
-                            href : `${Constants.TESTS_DIR}/${row.identifier}`,
+                            href : `${Constants.TEST_URL_BASE}/${row.identifier}`,
                         },
                         _ : row.identifier,
                     },
