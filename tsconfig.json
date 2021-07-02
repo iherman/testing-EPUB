@@ -37,7 +37,7 @@
         "excludePrivate" : true,
         "excludeProtected" : false,
 
-        "out" : "docs/",
+        "out" : "docs/tool_documentation",
         "theme": "default",
         "name" : "EPUB 3.3 Implementation Report Generator",
         "includeVersion": true,

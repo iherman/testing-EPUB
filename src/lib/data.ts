@@ -1,10 +1,17 @@
+/**
+ * Module to extract and gather information necessary to produce the right reports and an overview page for test cases
+ * 
+ * @packageDocumentation
+ */
+
+
 import * as fs_old_school from "fs";
 const fs = fs_old_school.promises;
 import * as xml2js from "xml2js";
 
 import { TestData, ImplementationReport, ImplementationData, ImplementationTable, Implementer, ReportData } from './types';
 
-
+/** @internal */
 function string_comparison(a: string, b: string): number {
     if (a < b) return -1;
     else if (a > b) return 1;
@@ -14,8 +21,11 @@ function string_comparison(a: string, b: string): number {
 
 /**
  * Lists of a directory content
+ * 
+ * (Note: at this moment this returns all the file names. Depending on the final configuration some filters may have to be added.)
+ * 
  * @param file_name name of the directory
- * @returns 
+ * @returns lists of files in the directory
  */
 async function get_list_dir(file_name: string): Promise<string[]> {
     const file_names = await fs.readdir(file_name);
@@ -48,13 +58,13 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
 
 
 /**
- * Extract all the test information from the available tests
+ * Extract all the test information from all available tests
  * 
  * @param dir_name test directory name
  * @returns metadata converted into the [[TestData]] structure
  */
 async function get_test_metadata(dir_name: string): Promise<TestData[]> {
-    // Extract the metadata information from the tests' package file
+    // Extract the metadata information from the tests' package file for a single test
     const get_single_test_metadata = async (file_name: string): Promise<TestData> => {
         const get_string_value = (label: string): string => {
             const entry = metadata[label][0];
@@ -92,8 +102,6 @@ async function get_test_metadata(dir_name: string): Promise<TestData[]> {
  * Combine the metadata, as retrieved from the tests, and the implementation reports into 
  * one structure for each tests with the test run results included
  * 
- * @param metadata 
- * @param implementations 
  */
 function create_implementation_data(metadata: TestData[], implementations: ImplementationReport[]): ImplementationData[] {
     return metadata.map((single_test: TestData): ImplementationData => {
@@ -113,9 +121,8 @@ function create_implementation_data(metadata: TestData[], implementations: Imple
 
 /**
  * Create Implementation tables: a separate list of implementations for each "section", ie, a collection of tests
- * that share the same "dc:coverage" data
+ * that share the same `dc:coverage` data
  * 
- * @param implementation_data 
  */
 function create_implementation_tables(implementation_data: ImplementationData[]): ImplementationTable[] {
     const retval: ImplementationTable[] = [];
