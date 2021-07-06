@@ -66,9 +66,17 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
 async function get_test_metadata(dir_name: string): Promise<TestData[]> {
     // Extract the metadata information from the tests' package file for a single test
     const get_single_test_metadata = async (file_name: string): Promise<TestData> => {
-        const get_string_value = (label: string): string => {
-            const entry = metadata[label][0];
-            return typeof entry === "string" ? entry : entry._;
+        const get_string_value = (label: string, fallback: string): string => {
+            try {
+                const entry = metadata[label][0];
+                if (entry === undefined) {
+                    return fallback;
+                } else {
+                    return typeof entry === "string" ? entry : entry._;
+                }
+            } catch {
+                return fallback;
+            }
         }
     
         const package_xml: string = await fs.readFile(`${file_name}/OPS/package.opf`,'utf-8');
@@ -80,13 +88,13 @@ async function get_test_metadata(dir_name: string): Promise<TestData[]> {
         const metadata = package_js.package.metadata[0]
     
         const alternate_title = metadata.meta.find((entry: any): boolean => entry["$"].property === "dcterms:alternative");
-        const final_title = alternate_title === undefined ? get_string_value("dc:title") : alternate_title._;
+        const final_title = alternate_title === undefined ? get_string_value("dc:title", "(No title)") : alternate_title._;
     
         return {
-            identifier  : get_string_value("dc:identifier"),
+            identifier  : get_string_value("dc:identifier", file_name.split('/').pop()),
             title       : final_title,
-            description : get_string_value("dc:description"),
-            coverage    : get_string_value("dc:coverage"),
+            description : get_string_value("dc:description", "(No description)"),
+            coverage    : get_string_value("dc:coverage", "(Uncategorized)"),
             references  : metadata["meta"].filter((entry:any): boolean => entry["$"].property === "dcterms:isReferencedBy").map((entry:any): string => entry._),
         }
     }

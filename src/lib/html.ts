@@ -216,7 +216,7 @@ const create_one_test_table = (data: ImplementationTable): any[] => {
     // `a` elements...
     const reference_list = (refs: string[]): any => {
         if (refs.length === 0) {
-            return " ";
+            return "n/a ";
         } else {
             let counter = 0;
             return refs.map((ref:string) => {
