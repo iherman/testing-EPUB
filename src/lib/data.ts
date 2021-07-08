@@ -9,7 +9,7 @@ import * as fs_old_school from "fs";
 const fs = fs_old_school.promises;
 import * as xml2js from "xml2js";
 
-import { TestData, ImplementationReport, ImplementationData, ImplementationTable, Implementer, ReportData } from './types';
+import { TestData, ImplementationReport, ImplementationData, ImplementationTable, Implementer, ReportData, Constants } from './types';
 
 /** @internal */
 function string_comparison(a: string, b: string): number {
@@ -30,7 +30,7 @@ function string_comparison(a: string, b: string): number {
 async function get_list_dir(file_name: string): Promise<string[]> {
     const file_names = await fs.readdir(file_name);
     // A filter may be needed at some point, hence the separation of return
-    return file_names;
+    return file_names.filter((name: string): boolean => name !== Constants.TEST_RESULTS_TEMPLATES_DIR)
 }
 
 
@@ -156,7 +156,7 @@ function create_implementation_tables(implementation_data: ImplementationData[])
 
 
 /* ------------------------------------------------------------------------------------------------------ */
-/*                                   External entry point                                                 */
+/*                                   External entry points                                                */
 /* ------------------------------------------------------------------------------------------------------ */
 
 /**
@@ -165,7 +165,6 @@ function create_implementation_tables(implementation_data: ImplementationData[])
  * 
  * @param tests directory where the tests reside
  * @param reports directory where the implementation reports reside
- * @returns 
  */
 export async function get_report_data(tests: string, reports: string): Promise<ReportData> {
     // Get the metadata for all available tests;
@@ -184,4 +183,22 @@ export async function get_report_data(tests: string, reports: string): Promise<R
     const implementers = impl_list as Implementer[];
 
     return {tables, implementers}
+}
+
+/**
+ * Get a list of the tests file names, to be used to generate a template report.
+ * 
+ * @param tests directory where the tests reside
+ */
+export async function get_template(tests: string): Promise<ImplementationReport> {
+    const test_names: string[] = await get_list_dir(tests);
+    const test_list: {[index: string]: boolean } = {};
+    for (const name of test_names) {
+        test_list[name] = false;
+    }
+    return {
+        "name"  : "(Implementation's name)",
+        "ref"   : "https://www.example.com",
+        "tests" : test_list,
+    }
 }
