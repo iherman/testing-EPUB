@@ -1,0 +1,3 @@
+* Cleaner way to separate a directory: should be possible to find out whether a file name refers to a directory
+* How to induce respec to use the data of the embedded file as today's date?
+  * Alternatively, the script may have to modify the respec structure...
