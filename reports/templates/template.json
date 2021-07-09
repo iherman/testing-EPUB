@@ -1,14 +1,5 @@
 {
     "name": "(Implementation's name)",
     "ref": "https://www.example.com",
-    "tests": {
-        "cmt-gif": false,
-        "cmt-jpeg": false,
-        "package-title-dir-rtl-001": false,
-        "package-title-dir-rtl-002": false,
-        "package-title-dir-rtl-003": false,
-        "package-title-dir-rtl-004": false,
-        "package-title-dir-rtl-005": false,
-        "package-title-dir-rtl-006": false
-    }
+    "tests": {}
 }
