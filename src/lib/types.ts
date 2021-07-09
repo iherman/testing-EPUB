@@ -12,6 +12,9 @@ export namespace Constants {
     /** Location for the templates */
     export const TEST_RESULTS_TEMPLATES_DIR: string = 'templates';
 
+    /** Location for the final report */
+    export const DOCS_DIR: string = 'docs';
+
     /** Location for the implementation report templates */
     export const TEST_RESULTS_TEMPLATE: string = `${TEST_RESULTS_DIR}/${TEST_RESULTS_TEMPLATES_DIR}/template.json`;
 
@@ -19,13 +22,13 @@ export namespace Constants {
     export const TEST_URL_BASE: string = 'https://github.com/iherman/epub-testing/tree/main/tests';
 
     /** Location for the HTML fragment on implementation lists */
-    export const IMPL_FRAGMENT: string = 'docs/fragments/implementations.html';
+    export const IMPL_FRAGMENT: string = `${DOCS_DIR}/fragments/implementations.html`;
 
     /** Location for the HTML fragment on implementation results */
-    export const RESULT_FRAGMENT: string = 'docs/fragments/results.html';
+    export const RESULT_FRAGMENT: string = `${DOCS_DIR}/fragments/results.html`;
 
     /** Location for the HTML fragment on test metadata */
-    export const TEST_FRAGMENT: string = 'docs/fragments/tests.html';
+    export const TEST_FRAGMENT: string = `${DOCS_DIR}/fragments/tests.html`;
 
     /** (Relative) File name of the test results */
     export const DOC_TEST_RESULTS: string = 'index.html';
