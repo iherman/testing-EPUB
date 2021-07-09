@@ -6,6 +6,17 @@ import { get_report_data, get_template } from "./lib/data";
 import { create_report } from "./lib/html";
 
 
+/**
+ * Force today's date into a respec source.
+ * @param fname File name for the resource document 
+ */
+async function adjust_date(fname: string): Promise<void> {
+    const text: string = await fs.readFile(fname, 'utf-8');
+    const new_text = text.replace(/[0-9]{4}-[0-9]{2}-[0-9]{2}/, (new Date()).toISOString().split('T')[0]);
+    return fs.writeFile(fname, new_text);
+}
+
+
 async function main() {
     // const report_data: ReportData = await get_report_data(Constants.TESTS_DIR, Constants.TEST_RESULTS_DIR);
     // const template: ImplementationReport = await get_template(Constants.TESTS_DIR);
@@ -22,6 +33,8 @@ async function main() {
         fs.writeFile(Constants.RESULT_FRAGMENT, results, 'utf-8'),
         fs.writeFile(Constants.TEST_FRAGMENT, tests, 'utf-8'),
         fs.writeFile(Constants.TEST_RESULTS_TEMPLATE, JSON.stringify(template, null, 4)),
+        adjust_date(`${Constants.DOCS_DIR}/${Constants.DOC_TEST_RESULTS}`),
+        adjust_date(`${Constants.DOCS_DIR}/${Constants.DOC_TEST_DESCRIPTIONS}`),
     ]);
 }
 
