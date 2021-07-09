@@ -9,28 +9,45 @@ import * as fs_old_school from "fs";
 const fs = fs_old_school.promises;
 import * as xml2js from "xml2js";
 
-import { TestData, ImplementationReport, ImplementationData, ImplementationTable, Implementer, ReportData, Constants } from './types';
+import { TestData, ImplementationReport, ImplementationData, ImplementationTable, Implementer, ReportData } from './types';
 
-/** @internal */
+/** 
+ * Name tells it all...
+ * 
+ * @internal 
+ */
 function string_comparison(a: string, b: string): number {
     if (a < b) return -1;
     else if (a > b) return 1;
     else return 0;
 }
 
+/** 
+ * See if a file name path refers to a real file (as opposed to a directory)
+ * 
+ * @internal 
+ */
+function isFile(name: string): boolean {
+    return fs_old_school.lstatSync(name).isFile();
+}
 
 /**
  * Lists of a directory content
  * 
  * (Note: at this moment this returns all the file names. Depending on the final configuration some filters may have to be added.)
  * 
- * @param file_name name of the directory
+ * @param dir_name name of the directory
+ * @param filter_name a function to filter the retrieved list (e.g., no directories)
  * @returns lists of files in the directory
  */
-async function get_list_dir(file_name: string): Promise<string[]> {
-    const file_names = await fs.readdir(file_name);
-    // A filter may be needed at some point, hence the separation of return
-    return file_names.filter((name: string): boolean => name !== Constants.TEST_RESULTS_TEMPLATES_DIR)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function get_list_dir(dir_name: string, filter_name: (name: string) => boolean = (name: string) => true): Promise<string[]> {
+    // The filter works on the full path, hence this internet
+    const file_name_filter = (name: string): boolean => {
+        return filter_name(`${dir_name}/${name}`);
+    }
+    const file_names = await fs.readdir(dir_name);
+    return file_names.filter(file_name_filter)
 }
 
 
@@ -48,7 +65,7 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
     };
 
     // Use the 'Promise.all' trick to get to all the implementation reports in one async step rather than going through a cycle
-    const implementation_list = await get_list_dir(dir_name);
+    const implementation_list = await get_list_dir(dir_name, isFile);
     const report_list_promises: Promise<ImplementationReport>[] = implementation_list.map((file_name) => get_implementation_report(`${dir_name}/${file_name}`));
     const implementation_reports: ImplementationReport[] = await Promise.all(report_list_promises);
     implementation_reports.sort((a,b) => string_comparison(a.name, b.name));
@@ -191,7 +208,7 @@ export async function get_report_data(tests: string, reports: string): Promise<R
  * @param tests directory where the tests reside
  */
 export async function get_template(tests: string): Promise<ImplementationReport> {
-    const test_names: string[] = await get_list_dir(tests);
+    const test_names: string[] = await get_list_dir(tests, isFile);
     const test_list: {[index: string]: boolean } = {};
     for (const name of test_names) {
         test_list[name] = false;
