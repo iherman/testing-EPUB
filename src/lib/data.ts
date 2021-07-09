@@ -18,6 +18,10 @@ function string_comparison(a: string, b: string): number {
     else return 0;
 }
 
+/** @internal */
+function filter_directory(name: string): boolean {
+    return name !== Constants.TEST_RESULTS_TEMPLATES_DIR
+}
 
 /**
  * Lists of a directory content
@@ -27,10 +31,11 @@ function string_comparison(a: string, b: string): number {
  * @param file_name name of the directory
  * @returns lists of files in the directory
  */
-async function get_list_dir(file_name: string): Promise<string[]> {
+async function get_list_dir(file_name: string, filter_names: (name: string) => boolean = (name: string) => true): Promise<string[]> {
     const file_names = await fs.readdir(file_name);
     // A filter may be needed at some point, hence the separation of return
-    return file_names.filter((name: string): boolean => name !== Constants.TEST_RESULTS_TEMPLATES_DIR)
+    // return file_names.filter((name: string): boolean => name !== Constants.TEST_RESULTS_TEMPLATES_DIR)
+    return file_names.filter(filter_names)
 }
 
 
@@ -48,7 +53,7 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
     };
 
     // Use the 'Promise.all' trick to get to all the implementation reports in one async step rather than going through a cycle
-    const implementation_list = await get_list_dir(dir_name);
+    const implementation_list = await get_list_dir(dir_name, filter_directory);
     const report_list_promises: Promise<ImplementationReport>[] = implementation_list.map((file_name) => get_implementation_report(`${dir_name}/${file_name}`));
     const implementation_reports: ImplementationReport[] = await Promise.all(report_list_promises);
     implementation_reports.sort((a,b) => string_comparison(a.name, b.name));
@@ -191,7 +196,7 @@ export async function get_report_data(tests: string, reports: string): Promise<R
  * @param tests directory where the tests reside
  */
 export async function get_template(tests: string): Promise<ImplementationReport> {
-    const test_names: string[] = await get_list_dir(tests);
+    const test_names: string[] = await get_list_dir(tests, filter_directory);
     const test_list: {[index: string]: boolean } = {};
     for (const name of test_names) {
         test_list[name] = false;
