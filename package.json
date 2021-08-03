@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "generate": "node bin/main.js",
+    "ts": "ts-node src/main.ts",
     "lint": "eslint . --ext .ts"
   },
   "repository": {

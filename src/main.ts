@@ -17,15 +17,13 @@ async function adjust_date(fname: string): Promise<void> {
 }
 
 
+/**
+ * Main entry point: generate the reports' html fragment files (i.e., the real "meat" for the data) and a template file
+ */
 async function main() {
-    // const report_data: ReportData = await get_report_data(Constants.TESTS_DIR, Constants.TEST_RESULTS_DIR);
-    // const template: ImplementationReport = await get_template(Constants.TESTS_DIR);
+    const report_data: ReportData = await get_report_data(Constants.TESTS_DIR, Constants.TEST_RESULTS_DIR);
 
-    const [ report_data, template ] = await Promise.all([
-        get_report_data(Constants.TESTS_DIR, Constants.TEST_RESULTS_DIR),
-        get_template(Constants.TESTS_DIR),
-    ])
-
+    const template: ImplementationReport = get_template(report_data);
     const {implementations, results, tests} = create_report(report_data);
     
     await Promise.all([

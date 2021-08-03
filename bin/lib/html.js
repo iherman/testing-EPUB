@@ -197,7 +197,7 @@ const create_one_test_table = (data) => {
     // `a` elements...
     const reference_list = (refs) => {
         if (refs.length === 0) {
-            return "n/a ";
+            return "n.a. ";
         }
         else {
             let counter = 0;

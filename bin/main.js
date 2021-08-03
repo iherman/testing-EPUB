@@ -14,13 +14,12 @@ async function adjust_date(fname) {
     const new_text = text.replace(/[0-9]{4}-[0-9]{2}-[0-9]{2}/, (new Date()).toISOString().split('T')[0]);
     return fs.writeFile(fname, new_text);
 }
+/**
+ * Main entry point: generate the reports' html fragment files (i.e., the real "meat" for the data) and a template file
+ */
 async function main() {
-    // const report_data: ReportData = await get_report_data(Constants.TESTS_DIR, Constants.TEST_RESULTS_DIR);
-    // const template: ImplementationReport = await get_template(Constants.TESTS_DIR);
-    const [report_data, template] = await Promise.all([
-        data_1.get_report_data(types_1.Constants.TESTS_DIR, types_1.Constants.TEST_RESULTS_DIR),
-        data_1.get_template(types_1.Constants.TESTS_DIR),
-    ]);
+    const report_data = await data_1.get_report_data(types_1.Constants.TESTS_DIR, types_1.Constants.TEST_RESULTS_DIR);
+    const template = data_1.get_template(report_data);
     const { implementations, results, tests } = html_1.create_report(report_data);
     await Promise.all([
         fs.writeFile(types_1.Constants.IMPL_FRAGMENT, implementations, 'utf-8'),
