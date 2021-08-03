@@ -119,6 +119,7 @@ async function get_test_metadata(dir_name: string): Promise<TestData[]> {
     // Get the test descriptions
     const test_list = await get_list_dir(dir_name);
     const test_data_promises: Promise<TestData>[] = test_list.map((name: string) => get_single_test_metadata(`${dir_name}/${name}`));
+    // Use the 'Promise.all' trick to get to all the data in one async step rather than going through a cycle
     return await Promise.all(test_data_promises);
 }
 
