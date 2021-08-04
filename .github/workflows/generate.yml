@@ -1,4 +1,4 @@
-name: Generate Reports
+name: Automatic Report generation
 on:
   push:
     branches: [main]
