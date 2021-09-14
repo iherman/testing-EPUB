@@ -89,8 +89,10 @@ export interface TestData {
  * Data about a single implementer: essentially, the data that is necessary to the final report about each implementer
  */
 export interface Implementer {
-    /** Name of the implementation to appear in the final report */
+    /** Name of the implementation, to appear in the final report */
     name: string;
+    /** Name of a variant, to appear in the final report */
+    variant?: string;
     /** If present, the name becomes a hyperlink to this URL */
     ref?: string
 }

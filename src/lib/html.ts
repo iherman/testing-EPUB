@@ -67,17 +67,18 @@ function create_impl_list(impl: Implementer[]): string {
     // The value of li is an array, ie, a repeated set if li elements...
     root.section.ol.li = impl.map((implementer: Implementer): any => {
         // Some implementation reports may not provide a website reference...
+        const name = 'variant' in implementer ? `${implementer.name} (${implementer.variant})` : implementer.name;
         if ('ref' in implementer) {
             return {
                 a : {
                     $ : {
                         href : implementer.ref,
                     },
-                    _ : implementer.name,
+                    _ : name,
                 },    
             }
         } else {
-            return implementer.name
+            return name
         }
     }); 
 
@@ -97,7 +98,7 @@ function create_impl_list(impl: Implementer[]): string {
 const create_one_result_table = (data: ImplementationTable, implementers: Implementer[]): any[] => {
     // The table header is on its own
     const fixed_head = ["Id"];
-    const variable_head = implementers.map((impl) => impl.name);
+    const variable_head = implementers.map((impl) => 'variant' in impl ? `${impl.name} (${impl.variant})` : impl.name);
     const head = [...fixed_head,...variable_head].map((title) => {
         return { th: title}
     });
