@@ -73,6 +73,21 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
     return implementation_reports
 }
 
+/**
+ * Get consolidated implementation reports.
+ * Some implementation report appear several times as 'variants' (typically android, ios, or web). These
+ * are usually using the same engine, so their results should be merged into one for the purpose of a formal
+ * report for the AC.
+ *
+ * @param implementations 
+ * @returns 
+ */
+function consolidate_implementation_reports(implementations: ImplementationReport[]): ImplementationReport[] {
+    // just for the purpose of testing!!!
+    return implementations.filter((impl: ImplementationReport): boolean => {
+        return impl.name !== 'Sea Reader';
+    })
+}
 
 /**
  * Extract all the test information from all available tests
@@ -190,17 +205,21 @@ export async function get_report_data(tests: string, reports: string): Promise<R
 
     // Get the list of available implementation reports
     const impl_list: ImplementationReport[] = await get_implementation_reports(reports);
+    const consolidated_list: ImplementationReport[] = consolidate_implementation_reports(impl_list);
 
     // Combine the two lists to create an array of Implementation data
-    const implementation_data: ImplementationData[] = create_implementation_data(metadata, impl_list)
+    const implementation_data: ImplementationData[] = create_implementation_data(metadata, impl_list);
+    const consolidated_data: ImplementationData[] = create_implementation_data(metadata, consolidated_list)
 
     // Section the list of implementation data
     const tables = create_implementation_tables(implementation_data)
+    const consolidated_tables = create_implementation_tables(consolidated_data)
 
     // Create an array of implementers that only contain the bare minimum
     const implementers = impl_list as Implementer[];
+    const consolidated_implementers = consolidated_list as Implementer[];
 
-    return {tables, implementers}
+    return {tables, consolidated_tables, implementers, consolidated_implementers}
 }
 
 /**

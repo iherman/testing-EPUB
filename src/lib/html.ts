@@ -154,21 +154,59 @@ const create_one_result_table = (data: ImplementationTable, implementers: Implem
  * @returns Serialized XML
  */
 function create_impl_reports(data: ReportData): string {
-    const root: any = {
-        // It is all a big section...
+
+    const root1: any = {
         section : {
-            // ... with a header
             h2 : {
                 $ : {
-                    id : "sec-report-tables",
+                    id : "sec-consolidated-report-tables",
                 },
-                _ : "Implementation Results",
+                _ : "Consolidated Implementation Results",
             },
-
             // ... and one (sub)section for each test category, with its own table
+            section : data.consolidated_tables.map((table): any => {
+                return {
+                    h3 : {
+                        $ : {
+                            id : `sec-${convert_to_id(table.header)}-results`,
+                        },
+                        _ : table.header,
+                    },
+
+                    // The table itself is created by adding the rows for each test
+                    table : {
+                        // The zebra class allow for a proper styling of the table
+                        $ : {
+                            class : "zebra",
+                        },
+                        // the `colgroup` structure allows styling of the table columns, especially their widths
+                        colgroup : {
+                            // Only one column is styled; by setting the width we ensure that all tables look identical
+                            col : {
+                                $ : {
+                                    class : Constants.CLASS_COL_ID,
+                                },
+                            },
+                        },
+                        // The function returns an array of elements
+                        tr : create_one_result_table(table, data.consolidated_implementers),
+                    },
+                }
+            }),
+        },
+    }
+
+    const root2: any = {
+        section : {
+            h2 : {
+                $ : {
+                    id : "sec-detailed-report-tables",
+                },
+                _ : "Detailed Implementation Results",
+            },
             section : data.tables.map((table): any => {
                 return {
-                    h2 : {
+                    h3 : {
                         $ : {
                             id : `sec-${convert_to_id(table.header)}-results`,
                         },
@@ -196,10 +234,11 @@ function create_impl_reports(data: ReportData): string {
                 }
             }),
         },
-    };
+    }
+
 
     // This is where the object is turned into an XML serialization...
-    return builder.buildObject(root);
+    return builder.buildObject(root1) + '\n'+ builder.buildObject(root2);
 }
 
 /* ------------------------------------------------------------------------------------------------------ */

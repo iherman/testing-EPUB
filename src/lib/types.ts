@@ -135,5 +135,7 @@ export interface ImplementationTable {
  */
 export interface ReportData {
     tables: ImplementationTable[],
-    implementers : Implementer[]
+    consolidated_tables: ImplementationTable[],
+    implementers : Implementer[],
+    consolidated_implementers: Implementer[];
 } 
