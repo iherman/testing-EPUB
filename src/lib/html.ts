@@ -1,5 +1,5 @@
 /**
- * Generation of the HTML Fragments for the EPUB 3 Testing Reports
+ * Generation of the HTML Fragments for the EPUB 3 Testing Reports.
  * 
   * 
  *  @packageDocumentation
@@ -12,19 +12,17 @@ concatenations or through the manipulation of a DOM tree using the DOM interface
 
 Short overview of the format: 
 
-- each xml element is represented by a JS key
-- if the value is a string then that that is the only textual content
-- if the value is an object, then:
-    - the `_` key provides the textual content
-    - the `$` key provides the the attributes through its own JS object
-    - all other keys are considered as sub-elements (or arrays of sub-elements)
-- if the value is an array of objects or strings, that represents repeated XML elements
+- Each xml element is represented by a JS key;
+- If the value is a string then that that is the only textual content;
+- If the value is an object, then:
+    - the `_` key provides the textual content;
+    - the `$` key provides the the attributes through its own JS object;
+    - all other keys are considered as sub-elements (or arrays of sub-elements).
+- If the value is an array of objects or strings, that represents repeated XML elements.
 
-Due to the fuzzy nature, all this objects are type-annotated as `any`...
+Due to their fuzzy nature, all this objects are type-annotated as `any`...
 
 */
-
-
 
 import { ReportData, ImplementationTable, Implementer, ImplementationData, Constants } from './types';
 
@@ -396,10 +394,11 @@ function create_test_data(data: ReportData): string {
 /* ------------------------------------------------------------------------------------------------------ */
 
 /**
- * Create three HTML fragments, to be stored in separate files. Each is in a `<section>` with a subtitle
+ * Create three HTML fragments, to be stored in separate files. Each is in a `<section>` with a subtitle, prepared for respec
  * 
  * 1. A bulleted list of available implementations, linked (if available) to the Web Site of the implementation itself
- * 2. A series of subsections, each with its own table; each table row is a reference to the test and a series of cells (one per implementation) whether the test passes or not
+ * 2. A series of subsections, each with its own table; each table row is a reference to the test and a series of cells (one per implementation) whether the test passes or not. This structure comes twice: one for consolidated results, and one for the
+ * original ones
  * 3. A series of subsections, each with its own table; each table row contains basic metadata and cross references to the tests.
  * 
  * The return for each of those is in the form of a string containing the XHTML fragment

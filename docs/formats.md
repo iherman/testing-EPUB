@@ -53,6 +53,7 @@ Here is an example (only the relevant metadata items are shown):
 Test reports consist of separate JSON files, one per implementers. The structure of the JSON file is as follows:
 
 - `name`: the name of the implementation (this will appear in the report). 
+- `variant`: the name of the variant. Typical values may be IOS, Web, Android in case the same implementation (i.e., sharing the same `name` value) has specific versions running in those environments. This entry is _optional_.
 - `ref`: a URL, that should be used to turn the name of the implementation into a hyperlink with this value as a target. This entry is _optional_.
 - `tests`: an object with the implementation results. Each field of this object refers to the unique identifier of the test, and the value is `true` or `false`, reflecting the test result. A test may be missing (i.e., the implementation has not run this test), and this will be reflected in the final report.
 
