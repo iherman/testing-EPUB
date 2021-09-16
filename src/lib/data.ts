@@ -84,7 +84,7 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
 }
 
 /**
- * Get consolidated implementation reports.
+ * Create consolidated implementation reports.
  * 
  * Some implementation report appear several times as 'variants' (typically android, ios, or web). These
  * are usually using the same engine, so their results should be merged into one for the purpose of a formal
@@ -94,30 +94,32 @@ async function get_implementation_reports(dir_name: string): Promise<Implementat
  * @returns a consolidated list of the implementation reports
  */
 function consolidate_implementation_reports(implementations: ImplementationReport[]): ImplementationReport[] {
+    // Results of a test, indexed by the ID of the test itself
     interface TestResults { [index: string]: boolean }
     interface Variants { [index: string]: TestResults[]}
     const final: ImplementationReport[] = [];
     const to_be_consolidated: Variants = {};
 
-    // This is the real meat. The problem is that different variants may skip some tests, i.e., the
+    // This is the real meat: creat a new set of test results combining the test result of the variants.
+    // The problem is that different variants may skip some tests, i.e., the
     // final list of test names must be the union of all the tests in the different variants
     const consolidate_test_results = (variant_results: TestResults[]): TestResults => {
         const retval: TestResults = {};
 
         // Get all keys together
         const all_keys: string[] = variant_results
-            .map((variant) => Object(variant).keys())
-            .reduce( (previous: string[], current: string[]): string[] => [...previous,...current], []);
+            .map((variant) => Object.keys(variant))
+            .reduce( (p: string[], c: string[]): string[] => [...p, ...c], []);
         // This is a neat trick to remove duplicates!
         const keys: string[] = [...new Set(all_keys)];
 
-        // Next is to get together all the results. The rule is to set the result to 'true' if at least one of the values is 'true'
+        // Next is to merge all the results. The rule is to set the result to 'true' if at least one of the values is 'true'
         for (const key of keys) {
             // Minor side effect trick: for each key there is at least one Test Result that has a value. We can therefore
-            // safely set the result to false temporarily if the test result is not available; there must be a false or true
-            // value somewhere else in the array.
+            // safely set the result to 'false' temporarily if the test result is not available; there must be a false or true
+            // value somewhere else in the array anyway.
             const all_results: boolean[] = variant_results.map((results: TestResults): boolean => key in results ? results[key] : false);
-            retval[key] = all_results.reduce( (previous: boolean, current: boolean): boolean => previous || current, false);
+            retval[key] = all_results.reduce( (p: boolean, c: boolean): boolean => p || c, false);
         }
         return retval;
     };
@@ -134,15 +136,21 @@ function consolidate_implementation_reports(implementations: ImplementationRepor
             final.push(impl);
         }
     }
+    // TODO: if there is a ref somewhere, then use that in the output as well
 
     // 2. consolidate the variants for the same name, and add those to the result
     for (const variant_name in to_be_consolidated) {
         const tests = consolidate_test_results(to_be_consolidated[variant_name]);
-        final.push({name: variant_name, tests});
+        final.push({
+            name    : variant_name,
+            variant : 'All variants',
+            tests,
+        });
     }
 
     // Re-sort the array to follow the original order
-    return final.sort((a,b) => string_comparison(a.name, b.name));
+    const retval: ImplementationReport[] = final.sort((a,b) => string_comparison(a.name, b.name));
+    return retval;
 }
 
 

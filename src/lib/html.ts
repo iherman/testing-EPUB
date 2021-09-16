@@ -96,9 +96,9 @@ function create_impl_list(impl: Implementer[]): string {
 const create_one_result_table = (data: ImplementationTable, implementers: Implementer[]): any[] => {
     // The table header is on its own
     const fixed_head = ["Id"];
-    const variable_head = implementers.map((impl) => 'variant' in impl ? `${impl.name} (${impl.variant})` : impl.name);
+    const variable_head = implementers.map((impl) => 'variant' in impl ? `${impl.name} &#10;(${impl.variant})` : impl.name);
     const head = [...fixed_head,...variable_head].map((title) => {
-        return { th: title}
+        return { th: title }
     });
 
     const tests = data.implementations.map((row: ImplementationData): any[] => {
@@ -236,7 +236,9 @@ function create_impl_reports(data: ReportData): string {
 
 
     // This is where the object is turned into an XML serialization...
-    return builder.buildObject(root1) + '\n'+ builder.buildObject(root2);
+    const the_xml: string = builder.buildObject(root1) + '\n'+ builder.buildObject(root2);
+    // Dirty trick: the newline entity is turned into pure text by the builder, changing it manually...
+    return the_xml.replace(/&amp;#10;/g, '<br>');
 }
 
 /* ------------------------------------------------------------------------------------------------------ */

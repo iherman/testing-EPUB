@@ -99,7 +99,7 @@ export interface Implementer {
 
 /**
  * The report of each implementer: beyond the data about the implementation itself it includes an object listing
- * tests results, one for each test that has been run.
+ * tests results, one for each test that has been run. The index is the ID of the test.
  */
 export interface ImplementationReport extends Implementer {
     tests: {
