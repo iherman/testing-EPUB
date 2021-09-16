@@ -89,15 +89,17 @@ export interface TestData {
  * Data about a single implementer: essentially, the data that is necessary to the final report about each implementer
  */
 export interface Implementer {
-    /** Name of the implementation to appear in the final report */
+    /** Name of the implementation, to appear in the final report */
     name: string;
+    /** Name of a variant, to appear in the final report */
+    variant?: string;
     /** If present, the name becomes a hyperlink to this URL */
     ref?: string
 }
 
 /**
  * The report of each implementer: beyond the data about the implementation itself it includes an object listing
- * tests results, one for each test that has been run.
+ * tests results, one for each test that has been run. The index is the ID of the test.
  */
 export interface ImplementationReport extends Implementer {
     tests: {
@@ -133,5 +135,7 @@ export interface ImplementationTable {
  */
 export interface ReportData {
     tables: ImplementationTable[],
-    implementers : Implementer[]
+    consolidated_tables: ImplementationTable[],
+    implementers : Implementer[],
+    consolidated_implementers: Implementer[];
 } 

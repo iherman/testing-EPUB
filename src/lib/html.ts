@@ -1,5 +1,5 @@
 /**
- * Generation of the HTML Fragments for the EPUB 3 Testing Reports
+ * Generation of the HTML Fragments for the EPUB 3 Testing Reports.
  * 
   * 
  *  @packageDocumentation
@@ -12,19 +12,17 @@ concatenations or through the manipulation of a DOM tree using the DOM interface
 
 Short overview of the format: 
 
-- each xml element is represented by a JS key
-- if the value is a string then that that is the only textual content
-- if the value is an object, then:
-    - the `_` key provides the textual content
-    - the `$` key provides the the attributes through its own JS object
-    - all other keys are considered as sub-elements (or arrays of sub-elements)
-- if the value is an array of objects or strings, that represents repeated XML elements
+- Each xml element is represented by a JS key;
+- If the value is a string then that that is the only textual content;
+- If the value is an object, then:
+    - the `_` key provides the textual content;
+    - the `$` key provides the the attributes through its own JS object;
+    - all other keys are considered as sub-elements (or arrays of sub-elements).
+- If the value is an array of objects or strings, that represents repeated XML elements.
 
-Due to the fuzzy nature, all this objects are type-annotated as `any`...
+Due to their fuzzy nature, all this objects are type-annotated as `any`...
 
 */
-
-
 
 import { ReportData, ImplementationTable, Implementer, ImplementationData, Constants } from './types';
 
@@ -67,17 +65,18 @@ function create_impl_list(impl: Implementer[]): string {
     // The value of li is an array, ie, a repeated set if li elements...
     root.section.ol.li = impl.map((implementer: Implementer): any => {
         // Some implementation reports may not provide a website reference...
+        const name = 'variant' in implementer ? `${implementer.name} (${implementer.variant})` : implementer.name;
         if ('ref' in implementer) {
             return {
                 a : {
                     $ : {
                         href : implementer.ref,
                     },
-                    _ : implementer.name,
+                    _ : name,
                 },    
             }
         } else {
-            return implementer.name
+            return name
         }
     }); 
 
@@ -97,9 +96,9 @@ function create_impl_list(impl: Implementer[]): string {
 const create_one_result_table = (data: ImplementationTable, implementers: Implementer[]): any[] => {
     // The table header is on its own
     const fixed_head = ["Id"];
-    const variable_head = implementers.map((impl) => impl.name);
+    const variable_head = implementers.map((impl) => 'variant' in impl ? `${impl.name} &#10;(${impl.variant})` : impl.name);
     const head = [...fixed_head,...variable_head].map((title) => {
-        return { th: title}
+        return { th: title }
     });
 
     const tests = data.implementations.map((row: ImplementationData): any[] => {
@@ -153,21 +152,59 @@ const create_one_result_table = (data: ImplementationTable, implementers: Implem
  * @returns Serialized XML
  */
 function create_impl_reports(data: ReportData): string {
-    const root: any = {
-        // It is all a big section...
+
+    const root1: any = {
         section : {
-            // ... with a header
             h2 : {
                 $ : {
-                    id : "sec-report-tables",
+                    id : "sec-consolidated-report-tables",
                 },
-                _ : "Implementation Results",
+                _ : "Consolidated Implementation Results",
             },
-
             // ... and one (sub)section for each test category, with its own table
+            section : data.consolidated_tables.map((table): any => {
+                return {
+                    h3 : {
+                        $ : {
+                            id : `sec-${convert_to_id(table.header)}-results`,
+                        },
+                        _ : table.header,
+                    },
+
+                    // The table itself is created by adding the rows for each test
+                    table : {
+                        // The zebra class allow for a proper styling of the table
+                        $ : {
+                            class : "zebra",
+                        },
+                        // the `colgroup` structure allows styling of the table columns, especially their widths
+                        colgroup : {
+                            // Only one column is styled; by setting the width we ensure that all tables look identical
+                            col : {
+                                $ : {
+                                    class : Constants.CLASS_COL_ID,
+                                },
+                            },
+                        },
+                        // The function returns an array of elements
+                        tr : create_one_result_table(table, data.consolidated_implementers),
+                    },
+                }
+            }),
+        },
+    }
+
+    const root2: any = {
+        section : {
+            h2 : {
+                $ : {
+                    id : "sec-detailed-report-tables",
+                },
+                _ : "Detailed Implementation Results",
+            },
             section : data.tables.map((table): any => {
                 return {
-                    h2 : {
+                    h3 : {
                         $ : {
                             id : `sec-${convert_to_id(table.header)}-results`,
                         },
@@ -195,10 +232,13 @@ function create_impl_reports(data: ReportData): string {
                 }
             }),
         },
-    };
+    }
+
 
     // This is where the object is turned into an XML serialization...
-    return builder.buildObject(root);
+    const the_xml: string = builder.buildObject(root1) + '\n'+ builder.buildObject(root2);
+    // Dirty trick: the newline entity is turned into pure text by the builder, changing it manually...
+    return the_xml.replace(/&amp;#10;/g, '<br>');
 }
 
 /* ------------------------------------------------------------------------------------------------------ */
@@ -356,10 +396,11 @@ function create_test_data(data: ReportData): string {
 /* ------------------------------------------------------------------------------------------------------ */
 
 /**
- * Create three HTML fragments, to be stored in separate files. Each is in a `<section>` with a subtitle
+ * Create three HTML fragments, to be stored in separate files. Each is in a `<section>` with a subtitle, prepared for respec
  * 
  * 1. A bulleted list of available implementations, linked (if available) to the Web Site of the implementation itself
- * 2. A series of subsections, each with its own table; each table row is a reference to the test and a series of cells (one per implementation) whether the test passes or not
+ * 2. A series of subsections, each with its own table; each table row is a reference to the test and a series of cells (one per implementation) whether the test passes or not. This structure comes twice: one for consolidated results, and one for the
+ * original ones
  * 3. A series of subsections, each with its own table; each table row contains basic metadata and cross references to the tests.
  * 
  * The return for each of those is in the form of a string containing the XHTML fragment

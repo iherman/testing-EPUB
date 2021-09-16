@@ -1,0 +1,14 @@
+{
+    "name"    : "Sea Reader",
+    "ref"     : "https://www.example.org/sea",
+    "variant" : "Android", 
+    "tests" : {
+        "cmt-gif": true,
+        "package-title-dir-rtl-001": true,
+        "package-title-dir-rtl-002": false,
+        "package-title-dir-rtl-003": true,
+        "package-title-dir-rtl-004": true,
+        "package-title-dir-rtl-005": true,
+        "package-title-dir-rtl-006": false
+    }
+}
