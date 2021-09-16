@@ -3,7 +3,7 @@
  * Module to extract and gather information necessary to produce the right reports and an overview page for test cases.
  *
  * Note: the term "consolidation" is used, throughout this module, for the following situation. Some implementations may come in different variants:
- * the same name (typically designating the core engine) but a separate versions ("variants") for different environments, typically IOS, Android, or Web.
+ * the same name (typically designating the core engine) but a separate versions ("variants") for different environments, typically iOS, Android, or Web.
  * Per W3C these are not considered to be independent implementations and, therefore, they should be considered as one implementation as far as the
  * formal CR report is concerned. On the other hand, there is value to keep the various implementation results separated.
  *
@@ -130,7 +130,7 @@ function consolidate_implementation_reports(implementations) {
         const tests = consolidate_test_results(to_be_consolidated[variant_name]);
         final.push({
             name: variant_name,
-            variant: 'All variants',
+            variant: 'consolidated',
             tests,
         });
     }
