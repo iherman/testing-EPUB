@@ -91,9 +91,10 @@ function create_impl_list(impl: Implementer[]): string {
 /**
  * Create one result table: ie, the table with a fixed head and then a series of rows, one for each test.
  * 
+ * @param suffix a string to be appended to the ID of a test; used when the same table is displayed with slightly different columns (like for variants)
  * @returns an array of objects to represent the content of the table as JS Objects for a `tr` element in the table
  */
-const create_one_result_table = (data: ImplementationTable, implementers: Implementer[]): any[] => {
+const create_one_result_table = (data: ImplementationTable, implementers: Implementer[], suffix: string = ''): any[] => {
     // The table header is on its own
     const fixed_head = ["Id"];
     const variable_head = implementers.map((impl) => 'variant' in impl ? `${impl.name} &#10;(${impl.variant})` : impl.name);
@@ -110,7 +111,7 @@ const create_one_result_table = (data: ImplementationTable, implementers: Implem
             {
                 td : {
                     $ : {
-                        id : `${row.identifier}-results`,
+                        id : `${row.identifier}-results${suffix}`,
                     },
                     // link to the description of the test in another table...
                     a : {
@@ -152,7 +153,6 @@ const create_one_result_table = (data: ImplementationTable, implementers: Implem
  * @returns Serialized XML
  */
 function create_impl_reports(data: ReportData): string {
-
     const root1: any = {
         section : {
             h2 : {
@@ -227,7 +227,7 @@ function create_impl_reports(data: ReportData): string {
                             },
                         },
                         // The function returns an array of elements
-                        tr : create_one_result_table(table, data.implementers),
+                        tr : create_one_result_table(table, data.implementers,'-detailed'),
                     },
                 }
             }),
