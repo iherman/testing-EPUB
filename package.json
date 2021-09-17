@@ -1,6 +1,6 @@
 {
   "name": "epub_testing_tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tools to produce a proper implementation report for the EPUB 3 WG Testing task",
   "main": "bin/main.js",
   "scripts": {

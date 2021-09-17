@@ -14,7 +14,7 @@ var Constants;
     /** Location for the templates */
     Constants.TEST_RESULTS_TEMPLATES_DIR = 'templates';
     /** Location for the final report */
-    Constants.DOCS_DIR = 'docs';
+    Constants.DOCS_DIR = 'results';
     /** Location for the implementation report templates */
     Constants.TEST_RESULTS_TEMPLATE = `${Constants.TEST_RESULTS_DIR}/${Constants.TEST_RESULTS_TEMPLATES_DIR}/template.json`;
     /** Base URL for the tests in the repository */

@@ -2,14 +2,18 @@
 /**
  * Module to extract and gather information necessary to produce the right reports and an overview page for test cases.
  *
- * Note: the term "consolidation" is used, throughout this module, for the following situation. Some implementations may come in different variants:
- * the same name (typically designating the core engine) but a separate versions ("variants") for different environments, typically iOS, Android, or Web.
- * Per W3C these are not considered to be independent implementations and, therefore, they should be considered as one implementation as far as the
+ * Note: the term "consolidation" is used, throughout this module, for the following situation.
+ * Some implementations may come in different variants:
+ * the same name (typically designating the core engine) but a separate versions ("variants")
+ * for different environments, typically iOS, Android, or Web.
+ * Per W3C these are not considered to be independent implementations and, therefore,
+ * they should be considered as one implementation as far as the
  * formal CR report is concerned. On the other hand, there is value to keep the various implementation results separated.
  *
- * To keep this, the report generator (and the display of the results) "duplicates" the list of implementations: one is the original (ie, with variants kept separated) and
- * one where the result of all the variants are "consolidated" into a unique implementation report. The duplication of these data is then reflected in the way the
- * reports are displayed.
+ * To keep this, the report generator (and the display of the results) "duplicates" the list of
+ * implementations: one is the original (ie, with variants kept separated) and
+ * one where the result of all the variants are "consolidated" into a unique implementation report.
+ * The duplication of these data is then reflected in the way the reports are displayed.
  *
  * @packageDocumentation
  */
@@ -33,7 +37,15 @@ function string_comparison(a, b) {
         return 0;
 }
 /**
- * See if a file name path refers to a real file (as opposed to a directory)
+ * See if a file name path refers to a real file
+ *
+ * @internal
+ */
+function isDirectory(name) {
+    return fs_old_school.lstatSync(name).isDirectory();
+}
+/**
+ * See if a file name path refers to a real file
  *
  * @internal
  */
@@ -51,7 +63,7 @@ function isFile(name) {
  */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function get_list_dir(dir_name, filter_name = (name) => true) {
-    // The filter works on the full path, hence this internet
+    // The filter works on the full path, hence this extra layer
     const file_name_filter = (name) => {
         return filter_name(`${dir_name}/${name}`);
     };
@@ -179,7 +191,7 @@ async function get_test_metadata(dir_name) {
         };
     };
     // Get the test descriptions
-    const test_list = await get_list_dir(dir_name);
+    const test_list = await get_list_dir(dir_name, isDirectory);
     const test_data_promises = test_list.map((name) => get_single_test_metadata(`${dir_name}/${name}`));
     // Use the 'Promise.all' trick to get to all the data in one async step rather than going through a cycle
     return await Promise.all(test_data_promises);
