@@ -27,8 +27,8 @@ jobs:
           git config user.email "<>"
       - name: commit the changes
         run: |
-          git add docs/*.html
-          git add docs/fragments/*.html
+          git add results/*.html
+          git add results/fragments/*.html
           git add reports/templates/*
           git commit -am "Automated report generation"
           git push origin main
