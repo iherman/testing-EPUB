@@ -66,7 +66,7 @@ function isFile(name: string): boolean {
 async function get_list_dir(dir_name: string, filter_name: (name: string) => boolean = (name: string) => true): Promise<string[]> {
     // The filter works on the full path, hence this extra layer
     const file_name_filter = (name: string): boolean => {
-        return filter_name(`${dir_name}/${name}`);
+        return name.startsWith('xx-') === false && filter_name(`${dir_name}/${name}`);
     }
     const file_names = await fs.readdir(dir_name);
     return file_names.filter(file_name_filter)

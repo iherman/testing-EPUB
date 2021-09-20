@@ -11,12 +11,10 @@ var Constants;
     Constants.TESTS_DIR = 'tests';
     /** Location for the implementation reports */
     Constants.TEST_RESULTS_DIR = 'reports';
-    /** Location for the templates */
-    Constants.TEST_RESULTS_TEMPLATES_DIR = 'templates';
     /** Location for the final report */
     Constants.DOCS_DIR = 'results';
     /** Location for the implementation report templates */
-    Constants.TEST_RESULTS_TEMPLATE = `${Constants.TEST_RESULTS_DIR}/${Constants.TEST_RESULTS_TEMPLATES_DIR}/template.json`;
+    Constants.TEST_RESULTS_TEMPLATE = `${Constants.TEST_RESULTS_DIR}/xx-template.json`;
     /** Base URL for the tests in the repository */
     Constants.TEST_URL_BASE = 'https://github.com/iherman/epub-testing/tree/main/tests';
     /** Location of the OPF file within the test directory */
