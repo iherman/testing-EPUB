@@ -5,8 +5,8 @@
   "main": "bin/main.js",
   "scripts": {
     "build": "tsc",
-    "generate": "node bin/main.js",
     "ts": "ts-node src/main.ts",
+    "generate": "./node_modules/ts-node/dist/bin.js src/main.ts",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
@@ -24,14 +24,15 @@
     "npm": "7.*"
   },
   "devDependencies": {
-    "@types/node": "^15.12.4",
-    "@types/xml2js": "^0.4.8",
     "@typescript-eslint/eslint-plugin": "^4.28.0",
     "@typescript-eslint/parser": "^4.28.0",
-    "eslint": "^7.29.0",
-    "typescript": "^4.3.4"
+    "eslint": "^7.29.0"
   },
   "dependencies": {
-    "xml2js": "^0.4.23"
+    "@types/node": "^15.12.4",
+    "@types/xml2js": "^0.4.8",
+    "ts-node": "^10.2.1",
+    "xml2js": "^0.4.23",
+    "typescript": "^4.3.4"
   }
 }
