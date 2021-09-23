@@ -4,8 +4,6 @@
   "description": "Tools to produce a proper implementation report for the EPUB 3 WG Testing task",
   "main": "bin/main.js",
   "scripts": {
-    "build": "tsc",
-    "ts": "ts-node src/main.ts",
     "generate": "./node_modules/ts-node/dist/bin.js src/main.ts",
     "lint": "eslint . --ext .ts"
   },
