@@ -5,6 +5,7 @@
   "main": "bin/main.js",
   "scripts": {
     "generate": "./node_modules/ts-node/dist/bin.js src/main.ts",
+    "respec": "(cd results/drafts; ../../node_modules/respec/tools/respec2html.js --localhost  -s index.html -o ../index.html; ../../node_modules/respec/tools/respec2html.js --localhost -s tests.html -o ../tests.html)",
     "lint": "eslint . --ext .ts"
   },
   "repository": {
@@ -29,8 +30,9 @@
   "dependencies": {
     "@types/node": "^15.12.4",
     "@types/xml2js": "^0.4.8",
+    "respec": "^26.13.4",
     "ts-node": "^10.2.1",
-    "xml2js": "^0.4.23",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "xml2js": "^0.4.23"
   }
 }
