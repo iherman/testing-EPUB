@@ -1,5 +1,5 @@
 {
-    "name"  : "IHerman Könyvei",
+    "name"  : "IHerman Könyvei és Olvasója",
     "ref"   : "https://www.example.org/ih",
     "tests" : {
         "cmt-gif": false,
