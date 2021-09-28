@@ -30,6 +30,7 @@ jobs:
         run: |
           git add results/*.html
           git add results/drafts/fragments/*.html
+          git add results/drafts/*.html
           git add reports/xx-*.json
           git commit -am "Automated report generation"
           git push origin main
