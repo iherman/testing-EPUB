@@ -2,6 +2,7 @@ This is a development and testing repo for the tool that, eventually, will gener
 
 See also [the current draft for how a test report would look like](https://iherman.github.io/epub-testing/results/).
 
+(This repo is now mostly obsolete, and will disappear pretty soon...)
 
 ---
 
